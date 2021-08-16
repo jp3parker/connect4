@@ -1,13 +1,14 @@
 #include "InputOutput.h"
 
-
+//the hardest part of this project was understanding how to use this function.
+//especially the "void* userdata" parameter.
 void CallBackFunc(int event, int x, int y, int flags, void* userdata) {
     GameData* carrier = static_cast<GameData *>(userdata);
     if (event == cv::EVENT_LBUTTONDOWN) {
         int row = makeMove(carrier->board, (carrier->moveCount%2)?'O':'X', (x/130)+1);
         if (row != -1) {
             newImage(row, (x/130), carrier);
-            if (checkWin(carrier->board)) {
+            if (checkWin(carrier->board)) {//if a player has won, stop CallBackFunc, back to main
                 cv::setMouseCallback(carrier->windowName, NULL, NULL);
                 return;
             }
@@ -21,6 +22,9 @@ void CallBackFunc(int event, int x, int y, int flags, void* userdata) {
     }
 }
 
+//this code is called when the mouse moves.
+//it copies the current connectboard image and
+//adds a faded yellow/red piece in the column where the mouse is.
 void fadedImage(int row, int column, GameData* carrier) {
     cv::Mat nextPiece;
     if (carrier->moveCount%2) {
@@ -37,6 +41,8 @@ void fadedImage(int row, int column, GameData* carrier) {
     return;
 }
 
+//this code is called when the mouse clicks on a column that is not full.
+//it adds a red/yellow piece to the column that the mouse clicked.
 void newImage(int row, int column, GameData* carrier) {
     cv::Mat nextPiece;
     if (carrier->moveCount%2) {
