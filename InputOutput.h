@@ -5,6 +5,8 @@
 #include "data.h"
 #include "game.h"
 
+#define SMALLIMAGESIZE 130
+
 void CallBackFunc(int, int, int, int, void*);
 void newImage(int, int, GameData*);
 void fadedImage(int, int, GameData*);
